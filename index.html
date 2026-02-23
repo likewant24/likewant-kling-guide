@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIKEWANT — Dynamic Shorts Prompt Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Inter:wght@300;400;500;600;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid #111;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.02) 0%, transparent 60%);
+  }
+  .hero-brand {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 80px;
+    letter-spacing: 16px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-tagline {
+    font-size: 12px;
+    letter-spacing: 8px;
+    color: #444;
+    text-transform: uppercase;
+    margin: 16px 0 60px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-title {
+    font-size: 22px;
+    font-weight: 300;
+    color: #888;
+    letter-spacing: 3px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-sub {
+    font-size: 13px;
+    color: #333;
+    margin-top: 12px;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid #333;
+    padding: 8px 24px;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #666;
+    text-transform: uppercase;
+    margin-top: 40px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* SETTINGS */
+  .settings {
+    display: flex;
+    justify-content: center;
+    gap: 1px;
+    background: #111;
+    border-bottom: 1px solid #111;
+  }
+  .setting-item {
+    flex: 1;
+    max-width: 200px;
+    text-align: center;
+    padding: 28px 16px;
+    background: #000;
+  }
+  .setting-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .setting-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ccc;
+  }
+
+  /* CARDS */
+  .cards {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 100px 32px;
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 2px;
+    min-height: 600px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid #111;
+    transition: border-color 0.4s;
+  }
+  .card:hover { border-color: #222; }
+  .card:nth-child(even) .card-img { order: 2; }
+  .card:nth-child(even) .card-body { order: 1; }
+
+  .card-img {
+    position: relative;
+    overflow: hidden;
+    background: #050505;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 0, 0, 1);
+  }
+  .card:hover .card-img img { transform: scale(1.05); }
+
+  .card-num {
+    position: absolute;
+    top: 24px;
+    left: 24px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: 80px;
+    color: rgba(255,255,255,0.04);
+    line-height: 1;
+    z-index: 2;
+  }
+
+  .card-body {
+    padding: 56px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #050505;
+  }
+
+  .card-concept {
+    font-size: 9px;
+    letter-spacing: 5px;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 32px;
+    letter-spacing: 4px;
+    color: #fff;
+    margin-bottom: 4px;
+  }
+  .card-desc {
+    font-size: 12px;
+    color: #555;
+    letter-spacing: 1px;
+    margin-bottom: 32px;
+  }
+
+  .prompt-label {
+    font-size: 9px;
+    letter-spacing: 4px;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .prompt-box {
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    padding: 24px;
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: #999;
+    max-height: 220px;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    transition: border-color 0.3s;
+  }
+  .prompt-box:hover { border-color: #333; }
+  .prompt-box::-webkit-scrollbar { width: 3px; }
+  .prompt-box::-webkit-scrollbar-track { background: #0a0a0a; }
+  .prompt-box::-webkit-scrollbar-thumb { background: #222; }
+
+  .btn-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .copy-btn {
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 12px 32px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover { background: #ddd; }
+  .copy-btn.copied { background: #222; color: #888; }
+
+  .scale-tag {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #333;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border: 1px solid #222;
+  }
+
+  .card-note {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #111;
+  }
+  .note-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .note-text {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.7;
+  }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    text-align: center;
+    padding: 80px 24px;
+    border-top: 1px solid #111;
+    border-bottom: 1px solid #111;
+    margin: 0 auto;
+    max-width: 1400px;
+  }
+  .section-divider h2 {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 14px;
+    letter-spacing: 8px;
+    color: #333;
+  }
+
+  /* TIP */
+  .tip-section {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 32px 100px;
+  }
+  .tip-box {
+    border: 1px solid #111;
+    padding: 48px;
+    background: #050505;
+  }
+  .tip-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 18px;
+    letter-spacing: 4px;
+    margin-bottom: 32px;
+  }
+  .tip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: #111;
+  }
+  .tip-item {
+    padding: 24px;
+    background: #050505;
+  }
+  .tip-item-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .tip-item-value {
+    font-size: 13px;
+    color: #bbb;
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 80px 24px;
+    border-top: 1px solid #111;
+  }
+  .footer-brand {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 28px;
+    letter-spacing: 8px;
+    color: #222;
+    margin-bottom: 8px;
+  }
+  .footer-text {
+    font-size: 10px;
+    color: #222;
+    letter-spacing: 3px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .hero-brand { font-size: 48px; letter-spacing: 8px; }
+    .card { grid-template-columns: 1fr; min-height: auto; }
+    .card:nth-child(even) .card-img { order: 1; }
+    .card:nth-child(even) .card-body { order: 2; }
+    .card-img { min-height: 400px; }
+    .card-body { padding: 36px 24px; }
+    .card-num { font-size: 48px; }
+    .settings { flex-wrap: wrap; }
+    .setting-item { min-width: 120px; }
+    .tip-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-brand">LIKEWANT</div>
+  <div class="hero-tagline">Like Colors. Want Vibes.</div>
+  <div class="hero-title">Dynamic Shorts Prompt Guide</div>
+  <div class="hero-sub">Side Table No.1 — 15 Images / 15 Dynamic Concepts</div>
+  <div class="hero-badge">Kling AI Image-to-Video</div>
+</section>
+
+<!-- SETTINGS -->
+<section class="settings">
+  <div class="setting-item">
+    <div class="setting-label">Model</div>
+    <div class="setting-value">Latest</div>
+  </div>
+  <div class="setting-item">
+    <div class="setting-label">Ratio</div>
+    <div class="setting-value">9:16</div>
+  </div>
+  <div class="setting-item">
+    <div class="setting-label">Duration</div>
+    <div class="setting-value">5–10s</div>
+  </div>
+  <div class="setting-item">
+    <div class="setting-label">Mode</div>
+    <div class="setting-value">Professional</div>
+  </div>
+  <div class="setting-item">
+    <div class="setting-label">Motion</div>
+    <div class="setting-value">3–4</div>
+  </div>
+</section>
+
+<!-- CARDS -->
+<section class="cards">
+
+<!-- 01 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">01</div>
+    <img src="images/Gemini_Generated_Image_vkjovuvkjovuvkjo.png" alt="Crimson Ocean">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 01</div>
+    <div class="card-title">CRIMSON OCEAN</div>
+    <div class="card-desc">Crimson Red — Epic Paint Storm</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p01">A cinematic 4K video. The sculptural red side table must remain completely unchanged in shape, color, and structure — a solid, rigid object. It stands firm as a vast, stormy ocean of thick, glossy crimson red paint crashes and swirls around its base in ultra slow motion. Giant waves of paint crest and break. The camera performs a dramatic, low-angle dolly-in, pushing through the turbulent liquid. The atmosphere is epic, powerful, and intensely artistic. High-contrast lighting creates sharp, moving reflections on the paint ocean. The object never moves or deforms.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p01',this)">COPY</button>
+      <span class="scale-tag">Epic Scale</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">페인트의 바다 속에서도 흔들리지 않는 존재감. likewant의 도장 퀄리티와 컬러 철학을 압도적 스케일로 선언.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 02 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">02</div>
+    <img src="images/1-1.jpg" alt="Shadow Projection">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 02</div>
+    <div class="card-title">ARCHITECTURAL SHADOW</div>
+    <div class="card-desc">Pure White — Dynamic Light Projection</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p02">A cinematic 4K monochrome video. The pure white side table must remain completely unchanged in shape, color, and structure — a solid, rigid object. Complex, sharp-edged architectural and geometric shadow patterns are projected onto the table and the surrounding white walls. These projected shadows rapidly shift, rotate, and morph, creating a dynamic, large-scale light show. The camera is completely static. The table never moves or deforms. Only the projected light and shadows move. The mood is chic, graphically bold, and high-tech.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p02',this)">COPY</button>
+      <span class="scale-tag">Projection Art</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">건축적 그림자 프로젝션이 테이블 위에서 춤추는 대규모 라이트 쇼. B&W 대비의 극한.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 03 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">03</div>
+    <img src="images/Gemini_Generated_Image_qp26ndqp26ndqp26.png" alt="Asteroid Field">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 03</div>
+    <div class="card-title">ASTEROID FIELD</div>
+    <div class="card-desc">Royal Blue — Sci-Fi Orbit</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p03">An ultra-smooth 4K sci-fi video. The deep royal blue side table must remain completely unchanged in shape, color, and structure — a solid, rigid object. It floats motionless in a pure black void. The camera executes a fast, seamless orbit around the table while dodging and weaving through hundreds of floating, sharp, geometric black shards that drift past like an asteroid field. Subtle side lighting shifts as the camera rotates. The atmosphere is cold, dangerous, and epic. Smooth, continuous, high-speed motion with no cuts. The object never moves or deforms.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p03',this)">COPY</button>
+      <span class="scale-tag">Sci-Fi</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">우주 소행성대 속 부유하는 오브제. 위험한 환경 속에서도 완벽한 형태를 유지하는 조각적 존재감.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">04</div>
+    <img src="images/Gemini_Generated_Image_xr56g7xr56g7xr56.png" alt="Hyperspace">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 04</div>
+    <div class="card-title">HYPERSPACE REVEAL</div>
+    <div class="card-desc">Vivid Blue — Extreme Pull-Back</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p04">An extreme macro 4K video with a sci-fi feel. The side table must remain completely unchanged in shape, color, and structure — a solid, rigid object. The camera starts extremely close on the flawless surface of the vivid blue tabletop, then performs an incredibly fast, dramatic pull-back, revealing the full table in an instant, as if coming out of hyperspace. Light streaks and motion blur accompany the pull-back. Soft, diffused studio lighting. The atmosphere is premium, high-tech, and impactful. The object is completely static. Only the camera moves.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p04',this)">COPY</button>
+      <span class="scale-tag">Speed Impact</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">에어리스 마감의 완벽한 표면에서 시작, 하이퍼스페이스 급 풀백으로 전체 실루엣을 순간 공개. 강렬한 임팩트.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">05</div>
+    <img src="images/Gemini_Generated_Image_6zvoq6zvoq6zvoq6.png" alt="Paint Supernova">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 05</div>
+    <div class="card-title">PAINT SUPERNOVA</div>
+    <div class="card-desc">Crimson Red — Explosive Paint Burst</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p05">An extreme macro 4K video in ultra slow motion. The crimson red side table must remain completely unchanged in shape, color, and structure — a solid, rigid object. From behind the static table, a massive, silent explosion of thick, glossy crimson paint erupts outwards in all directions, like a supernova. Droplets and tendrils of paint expand and fill the entire frame against a clean white background. The table itself is untouched and remains perfectly still. Bright, high-key studio lighting. The atmosphere is sensual, powerful, and hypnotic. The object never moves or deforms.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p05',this)">COPY</button>
+      <span class="scale-tag">Explosion</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">페인트 초신성 폭발. 던에드워드 페인트의 발색과 질감을 우주적 스케일로 표현. 후킹 숏의 극대화.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">06</div>
+    <img src="images/6.jpg" alt="Hyperlapse City">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 06</div>
+    <div class="card-title">HYPERLAPSE CITY</div>
+    <div class="card-desc">Mustard Gold — Time-Lapse Cityscape</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p06">A 4K cinematic hyperlapse video. The mustard-gold side table must remain completely unchanged in shape, color, and structure — a solid, rigid object. It stands static on a rooftop terrace while the entire city behind it moves in a dramatic fast-forward time-lapse from golden hour to deep night. Clouds streak across the sky, sunlight sweeps across buildings, and city lights turn on and create massive light trails. The camera performs a slow, steady push-in on the unmoving table. The mood is urban, epic, and sophisticated. The object is the calm center of a chaotic world.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p06',this)">COPY</button>
+      <span class="scale-tag">Hyperlapse</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">도시 전체가 빠르게 흘러가는 가운데, 테이블만이 고요한 중심. 혼돈 속 정적의 대비가 만드는 시네마틱 무드.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">07</div>
+    <img src="images/2.jpg" alt="Assembly Line">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 07</div>
+    <div class="card-title">INFINITE ASSEMBLY</div>
+    <div class="card-desc">Multi-Color — Futuristic Factory</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p07">A 4K product showcase video with a futuristic scale. The side tables must remain completely unchanged in shape, color, and structure. The camera flies at high speed down an infinite, futuristic assembly line. Hundreds of side tables in ten different colors glide past on clean, white conveyor belts. Robotic arms perform quality checks with laser scanners. The environment is a vast, clean, white industrial space. The atmosphere is confident, high-tech, and epic in scale. Steady, high-speed forward dolly movement.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p07',this)">COPY</button>
+      <span class="scale-tag">Mass Scale</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">무한 조립 라인을 고속으로 관통. 10가지 컬러가 끝없이 펼쳐지는 미래적 공장. "Like Colors" 철학의 산업적 스케일.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 08 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">08</div>
+    <img src="images/5.jpg" alt="Magnetic Repulsion">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 08</div>
+    <div class="card-title">MAGNETIC REPULSION</div>
+    <div class="card-desc">Coral Red — Shockwave Physics</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p08">A 4K graphic video with sci-fi physics. The two coral-red side tables must remain completely unchanged in shape, color, and structure. They slide rapidly toward each other from opposite edges of the frame. Just before impact, a visible shockwave of shimmering energy erupts between them, violently repelling them back to their starting positions. This happens in a rhythmic loop. Clean white background. The atmosphere is bold, powerful, and tension-filled. The objects move but do not deform.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p08',this)">COPY</button>
+      <span class="scale-tag">Sci-Fi Physics</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">자기 반발력의 충격파. 두 테이블이 충돌 직전 에너지 폭발로 튕겨나가는 SF적 긴장감. 대담한 물리 시뮬레이션.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">09</div>
+    <img src="images/8.jpg" alt="Shifting Walls">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 09</div>
+    <div class="card-title">SHIFTING GALLERY</div>
+    <div class="card-desc">Peach Tone — Surreal Architecture</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p09">A 4K architectural video with a surreal twist. The peach-toned side table must remain completely unchanged in shape, color, and structure — a solid, rigid object. It sits in the center of a minimalist gallery space. The surrounding concrete walls and arched openings begin to move and reconfigure, sliding and rotating to create new architectural compositions around the static table. Natural light shifts as the walls move. The camera is static. The object never moves. Only the architecture around it is in motion. The atmosphere is serene, surreal, and elevated.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p09',this)">COPY</button>
+      <span class="scale-tag">Surreal</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">건축 공간 자체가 테이블을 중심으로 재구성되는 초현실적 연출. 가구가 공간을 장악하는 퍼포먼스.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">10</div>
+    <img src="images/7.jpg" alt="Brutalist Growth">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 10</div>
+    <div class="card-title">BRUTALIST GROWTH</div>
+    <div class="card-desc">Baby Blue — Concrete Crystal Formation</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p10">A 4K architectural CGI video. The baby blue side table must remain completely unchanged in shape, color, and structure — a solid, rigid object. It stands on a flat concrete plane. Around it, massive brutalist concrete structures and walls grow rapidly from the ground, like crystals, eventually forming a complex architectural space around the table. The camera performs a slow orbit as the structures grow. The atmosphere is powerful, minimal, and architecturally refined. The object is static while the world builds around it.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p10',this)">COPY</button>
+      <span class="scale-tag">CGI Architecture</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">테이블을 중심으로 거대한 콘크리트 구조물이 결정처럼 솟아오르는 CGI. 세계가 가구를 위해 건설되는 스케일.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">11</div>
+    <img src="images/4.jpg" alt="Color Dimension">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 11</div>
+    <div class="card-title">COLOR DIMENSION SHIFT</div>
+    <div class="card-desc">Multi-Color — Rapid Tone-on-Tone Flash</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p11">A 4K editorial montage video with a psychedelic effect. The side table must remain completely unchanged in shape and structure. The entire scene — the table, the wall, the floor — rapidly shifts through different tone-on-tone color dimensions in a fast-paced montage. Red-on-red, blue-on-blue, olive-on-olive, beige-on-beige. Each color dimension flashes for less than a second. The camera is static. The object never deforms, only its color and the environment's color change instantly. The atmosphere is editorial, bold, and visually arresting.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p11',this)">COPY</button>
+      <span class="scale-tag">Color Flash</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">컬러 차원 이동. 1초 미만의 빠른 전환으로 톤온톤 컬러 매칭을 사이키델릭하게 표현. "Like Colors"의 극한.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 12 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">12</div>
+    <img src="images/Gemini_Generated_Image_yhus1pyhus1pyhus(1).png" alt="Mechanical Assembly">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 12</div>
+    <div class="card-title">MECHANICAL ASSEMBLY</div>
+    <div class="card-desc">Deep Blue — High-Tech Parts Assembly</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p12">A clean 4K product video with a high-tech CGI animation. The side table must end up in its perfect, unchanged final form. The video starts with the component parts of the deep blue side table — the round tabletop and the three individual petal-like base pieces — flying into the frame from different directions. They expertly connect with a satisfying, precise click, assembling the table in mid-air against a pure white background. The camera is static. The parts move to assemble, but the final object is rigid and does not deform. The atmosphere is clean, precise, and futuristic.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p12',this)">COPY</button>
+      <span class="scale-tag">CGI Assembly</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">파츠가 공중에서 정밀하게 조립되는 하이테크 CGI. 제품의 구조적 아름다움과 정밀한 제작 과정을 시각화.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 13 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">13</div>
+    <img src="images/Gemini_Generated_Image_2vn4il2vn4il2vn4.png" alt="Monumental Scale">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 13</div>
+    <div class="card-title">MONUMENTAL SCALE</div>
+    <div class="card-desc">Blue-Violet — Giant Skyscraper Reveal</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p13">A 4K product hero video with an epic scale reveal. The side table must remain completely unchanged in shape, color, and structure. The camera starts on what appears to be a normal blue-violet side table. It then performs a very slow, dramatic pull-back to reveal the table is actually monumental in size, standing like a giant skyscraper in the middle of a futuristic, minimalist city at night. Tiny flying vehicles zip around its base. The atmosphere is awe-inspiring, elegant, and epic. The object is static. Only the camera moves.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p13',this)">COPY</button>
+      <span class="scale-tag">Monumental</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">사이드 테이블이 초고층 빌딩 스케일로 드러나는 반전. 가구의 존재감을 도시적 스케일로 확장하는 압도적 리빌.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 14 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">14</div>
+    <img src="images/9.jpg" alt="Pattern Overload">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 14</div>
+    <div class="card-title">PATTERN OVERLOAD</div>
+    <div class="card-desc">White — Hypnotic B&W Pattern Animation</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p14">A 4K graphic video. The white side table must remain completely unchanged in shape, color, and structure — a solid, rigid object. It stands static in the center. The background wall, covered in a repeating black-and-white pattern of the table's silhouette, animates rapidly. The patterns shift, invert, scale, and ripple in a hypnotic, high-contrast visual overload. The camera is completely static. The object never moves or deforms. Only the background pattern is in motion. The atmosphere is bold, graphic, and mesmerizing.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p14',this)">COPY</button>
+      <span class="scale-tag">Op-Art</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">테이블 실루엣의 B&W 패턴이 벽면에서 폭주하는 옵아트적 연출. 시그니처 패턴의 시각적 과부하.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 15 -->
+<div class="card">
+  <div class="card-img">
+    <div class="card-num">15</div>
+    <img src="images/3.jpg" alt="Paint Flood">
+  </div>
+  <div class="card-body">
+    <div class="card-concept">Concept 15</div>
+    <div class="card-title">DUELING PAINT FLOODS</div>
+    <div class="card-desc">Red Duo — Massive Liquid Collision</div>
+    <div class="prompt-label">Kling AI Prompt</div>
+    <div class="prompt-box" id="p15">A 4K graphic video with large-scale liquid simulation. The two red side tables must remain completely unchanged in shape, color, and structure. They stand symmetrically on a white floor. From the left, a massive flood of white paint rushes in. From the right, a massive flood of red paint rushes in. The two floods of paint collide violently in the center, between the two static tables, creating a spectacular splash and mixing in slow motion. The tables themselves are untouched by the paint. The camera is positioned from a high angle, looking down. The atmosphere is bold, graphic, and powerful.</div>
+    <div class="btn-row">
+      <button class="copy-btn" onclick="cp('p15',this)">COPY</button>
+      <span class="scale-tag">Liquid Sim</span>
+    </div>
+    <div class="card-note">
+      <div class="note-label">연출 의도</div>
+      <div class="note-text">레드와 화이트 페인트의 대규모 충돌. 두 테이블 사이에서 벌어지는 컬러 전쟁. 대담하고 그래픽적인 클로징 숏.</div>
+    </div>
+  </div>
+</div>
+
+</section>
+
+<!-- TIP -->
+<section class="tip-section">
+  <div class="tip-box">
+    <div class="tip-title">KLING AI SETTINGS & TIPS</div>
+    <div class="tip-grid">
+      <div class="tip-item">
+        <div class="tip-item-label">Mode</div>
+        <div class="tip-item-value">Image-to-Video<br>Professional Mode</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">Motion Intensity</div>
+        <div class="tip-item-value">3~4 (Low)<br>제품 외형 보존 최적</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">Duration</div>
+        <div class="tip-item-value">5~10초<br>숏츠 최적 길이</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">Aspect Ratio</div>
+        <div class="tip-item-value">9:16<br>숏츠/릴스 세로형</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">핵심 규칙</div>
+        <div class="tip-item-value">모든 프롬프트에<br>외형 변형 방지 지시문 포함</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">Workflow</div>
+        <div class="tip-item-value">이미지 업로드 →<br>프롬프트 COPY → 생성</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">LIKEWANT</div>
+  <div class="footer-text">LIKE COLORS. WANT VIBES.</div>
+</footer>
+
+<script>
+function cp(id, btn) {
+  const t = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(t).then(() => {
+    btn.textContent = 'COPIED';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'COPY'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>

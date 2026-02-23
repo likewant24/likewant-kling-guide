@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIKEWANT — Kling AI New Shorts Prompt Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #000;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HERO */
+  .hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid #1a1a1a;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-brand {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 72px;
+    letter-spacing: 12px;
+    margin-bottom: 16px;
+  }
+  .hero-tagline {
+    font-size: 13px;
+    letter-spacing: 6px;
+    color: #666;
+    text-transform: uppercase;
+    margin-bottom: 48px;
+  }
+  .hero-title {
+    font-size: 18px;
+    font-weight: 300;
+    color: #999;
+    letter-spacing: 2px;
+  }
+  .hero-subtitle {
+    font-size: 13px;
+    color: #444;
+    margin-top: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* SETTINGS BAR */
+  .settings {
+    padding: 32px 48px;
+    border-bottom: 1px solid #1a1a1a;
+    display: flex;
+    justify-content: center;
+    gap: 48px;
+    flex-wrap: wrap;
+  }
+  .setting-item {
+    text-align: center;
+  }
+  .setting-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #555;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .setting-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ccc;
+  }
+
+  /* CARD SECTION */
+  .cards-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 80px 24px;
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 120px;
+    border: 1px solid #1a1a1a;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .card:hover {
+    border-color: #333;
+  }
+
+  .card:nth-child(even) .card-image { order: 2; }
+  .card:nth-child(even) .card-content { order: 1; }
+
+  .card-image {
+    position: relative;
+    overflow: hidden;
+    background: #0a0a0a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 500px;
+  }
+  .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .card:hover .card-image img {
+    transform: scale(1.03);
+  }
+  .card-number {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 48px;
+    color: rgba(255,255,255,0.08);
+    line-height: 1;
+  }
+
+  .card-content {
+    padding: 48px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #0a0a0a;
+  }
+
+  .card-tag {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: #555;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .card-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 28px;
+    letter-spacing: 3px;
+    margin-bottom: 6px;
+    color: #fff;
+  }
+  .card-color {
+    font-size: 12px;
+    color: #666;
+    letter-spacing: 1px;
+    margin-bottom: 28px;
+  }
+
+  .prompt-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #555;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .prompt-box {
+    background: #111;
+    border: 1px solid #222;
+    padding: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #bbb;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    margin-bottom: 24px;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+  .prompt-box::-webkit-scrollbar { width: 4px; }
+  .prompt-box::-webkit-scrollbar-track { background: #111; }
+  .prompt-box::-webkit-scrollbar-thumb { background: #333; }
+
+  .copy-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 10px 24px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .copy-btn:hover {
+    background: #ccc;
+  }
+  .copy-btn.copied {
+    background: #333;
+    color: #fff;
+  }
+
+  .card-note {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #1a1a1a;
+  }
+  .note-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #444;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .note-text {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  .footer {
+    text-align: center;
+    padding: 80px 24px;
+    border-top: 1px solid #1a1a1a;
+  }
+  .footer-brand {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 24px;
+    letter-spacing: 6px;
+    color: #333;
+    margin-bottom: 12px;
+  }
+  .footer-text {
+    font-size: 11px;
+    color: #333;
+    letter-spacing: 2px;
+  }
+
+  /* TIP SECTION */
+  .tip-section {
+    max-width: 1200px;
+    margin: 0 auto 80px;
+    padding: 0 24px;
+  }
+  .tip-box {
+    border: 1px solid #1a1a1a;
+    padding: 40px;
+    background: #0a0a0a;
+  }
+  .tip-title {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 24px;
+    color: #fff;
+  }
+  .tip-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .tip-item {
+    padding: 20px;
+    border: 1px solid #1a1a1a;
+  }
+  .tip-item-label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: #555;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .tip-item-value {
+    font-size: 14px;
+    color: #ccc;
+    line-height: 1.5;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero-brand { font-size: 42px; letter-spacing: 6px; }
+    .card { grid-template-columns: 1fr; }
+    .card:nth-child(even) .card-image { order: 1; }
+    .card:nth-child(even) .card-content { order: 2; }
+    .card-image { min-height: 400px; }
+    .card-content { padding: 32px 24px; }
+    .settings { padding: 24px; gap: 24px; }
+    .tip-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-brand">LIKEWANT</div>
+  <div class="hero-tagline">Like Colors. Want Vibes.</div>
+  <div class="hero-title">Kling AI — New Shorts Prompt Guide</div>
+  <div class="hero-subtitle">Side Table No.1 — 10 Concepts / 10 Colors</div>
+</section>
+
+<!-- SETTINGS -->
+<section class="settings">
+  <div class="setting-item">
+    <div class="setting-label">Model</div>
+    <div class="setting-value">Latest Version</div>
+  </div>
+  <div class="setting-item">
+    <div class="setting-label">Ratio</div>
+    <div class="setting-value">9:16 (Shorts)</div>
+  </div>
+  <div class="setting-item">
+    <div class="setting-label">Duration</div>
+    <div class="setting-value">5–10s</div>
+  </div>
+  <div class="setting-item">
+    <div class="setting-label">Mode</div>
+    <div class="setting-value">Professional</div>
+  </div>
+  <div class="setting-item">
+    <div class="setting-label">Motion Intensity</div>
+    <div class="setting-value">3–4 (Low)</div>
+  </div>
+</section>
+
+<!-- CARDS -->
+<section class="cards-container">
+
+  <!-- 01 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">01</div>
+      <img src="images/new_01_black_void.png" alt="Black Void">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 01</div>
+      <div class="card-title">BLACK VOID</div>
+      <div class="card-color">Matte Black — Spotlight Reveal</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-01">A cinematic 4K product video. The side table in the image must remain completely unchanged in shape, color, proportions, and surface — no morphing, no deformation. The scene begins in total darkness. The single razor-sharp spotlight slowly fades in from directly above, dramatically revealing the deep matte black side table. The hard light carves deep, graphic shadows on the floor. The camera is completely static. The object never moves. Only the light moves — slow, deliberate, powerful. The atmosphere is cold, confrontational, and runway-like.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-01', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">어둠 속에서 빛 하나로 존재감을 드러내는 퍼포먼스. "가구는 퍼포먼스다"라는 likewant 철학의 시각화.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 02 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">02</div>
+      <img src="images/new_02_crimson_smoke.png" alt="Crimson Smoke">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 02</div>
+      <div class="card-title">CRIMSON SMOKE</div>
+      <div class="card-color">Deep Crimson Red — Smoke Silhouette</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-02">A dramatic 4K product video. The side table must remain completely unchanged in shape, color, proportions, and surface — no morphing, no deformation. The deep crimson red side table sits perfectly still against a black background. Thin wisps of white smoke slowly drift across the frame from left to right, partially obscuring and revealing the sculptural silhouette. A single hard side light creates a sharp edge-light on the table's profile. The camera performs an extremely slow push-in. The object never moves. Only the smoke and camera move. The atmosphere is mysterious, cold, and cinematic.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-02', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">스모크가 실루엣을 가렸다 드러내는 미스터리한 연출. 크림슨 레드의 강렬한 존재감과 시크한 무드의 조합.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 03 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">03</div>
+      <img src="images/new_03_white_gallery.png" alt="White Gallery">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 03</div>
+      <div class="card-title">WHITE GALLERY</div>
+      <div class="card-color">Pure White — Gallery Sunlight</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-03">A 4K architectural video. The side table must remain completely unchanged in shape, color, proportions, and surface — no morphing, no deformation. In a stark white minimalist gallery, the harsh directional sunlight slowly moves across the room, causing the long dramatic shadow of the white side table to sweep across the polished concrete floor. The camera is completely static, capturing the passage of time. The object never moves. Only the light and shadow move. The atmosphere is cold, architectural, and serene.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-03', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">화이트 온 화이트의 극한 미니멀리즘. 빛의 이동만으로 시간의 흐름을 담는 갤러리 무드.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 04 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">04</div>
+      <img src="images/new_04_electric_blue_mirror.png" alt="Electric Blue Mirror">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 04</div>
+      <div class="card-title">ELECTRIC BLUE MIRROR</div>
+      <div class="card-color">Cobalt Blue — Mirror Reflection</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-04">An ultra-smooth 4K product video. The side table and its reflection must remain completely unchanged in shape, color, and proportions — no morphing, no deformation. The camera executes a very slow, seamless vertical tilt-up, starting from the reflection on the mirror floor and rising to the actual electric cobalt blue side table. Cold blue-tinted studio lighting from the sides creates sharp highlights on the edges. The object is perfectly static. Only the camera moves. The atmosphere is cold, futuristic, and bold.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-04', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">반사에서 실체로. 미러 플로어의 대칭 구도가 미래적 무드를 극대화. 블루 에지 라이트가 조각적 형태를 강조.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 05 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">05</div>
+      <img src="images/new_05_olive_concrete.png" alt="Olive Concrete">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 05</div>
+      <div class="card-title">OLIVE CONCRETE</div>
+      <div class="card-color">Deep Olive Green — Brutalist Architecture</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-05">A 4K cinematic lifestyle video. The side table must remain completely unchanged in shape, color, proportions, and surface — no morphing, no deformation. The moody, directional warm-toned spotlight slowly moves across the raw brutalist concrete wall and the deep olive green side table, creating a play of chiaroscuro lighting. The architectural design book on the table remains untouched. The camera performs a very slow, gentle orbit from left to right. The object is static. Only the light and camera move. The atmosphere is sophisticated, editorial, and architecturally refined.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-05', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">브루탈리즘 콘크리트와 올리브 컬러의 대비. 건축적 공간 속 오브제로서의 가구를 보여주는 에디토리얼 숏.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 06 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">06</div>
+      <img src="images/new_06_mustard_runway.png" alt="Mustard Runway">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 06</div>
+      <div class="card-title">MUSTARD RUNWAY</div>
+      <div class="card-color">Mustard Gold — Fashion Runway</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-06">A high-fashion 4K video. The side table must remain completely unchanged in shape, color, proportions, and surface — no morphing, no deformation. On a dark fashion runway, the overhead spotlights slowly pulse, creating a subtle blooming and dimming effect on the mustard gold side table. The reflection on the glossy black runway floor shimmers accordingly. The camera is completely static. The object never moves. Only the lighting intensity changes. The atmosphere is high-fashion, editorial, and bold.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-06', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">패션 런웨이 위의 가구. "가구도 패션이다"라는 대담한 선언. 스포트라이트의 호흡이 존재감을 증폭.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 07 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">07</div>
+      <img src="images/new_07_blush_neon.png" alt="Blush Neon">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 07</div>
+      <div class="card-title">BLUSH NEON</div>
+      <div class="card-color">Dusty Blush Pink — Neon Backlight</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-07">A futuristic 4K product video. The side table must remain completely unchanged in shape, color, proportions, and surface — no morphing, no deformation. In a dark room, the vertical neon white light strip behind the dusty blush pink table slowly flickers on and off with a soft hum. The front of the table remains dimly lit. The camera is static. The object never moves. Only the neon light flickers. The atmosphere is cold, futuristic, and edgy.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-07', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">네온과 더스티 핑크의 대비. 차가운 미래적 무드 속에서 컬러의 미묘한 뉘앙스를 드러내는 에지 있는 연출.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 08 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">08</div>
+      <img src="images/new_08_terracotta_arch.png" alt="Terracotta Arch">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 08</div>
+      <div class="card-title">TERRACOTTA ARCH</div>
+      <div class="card-color">Terracotta Orange — Concrete Arch</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-08">An architectural 4K lifestyle video. The side table must remain completely unchanged in shape, color, proportions, and surface — no morphing, no deformation. The warm directional sunlight streaming through the concrete arch slowly fades to a cool evening light. The dramatic rim light on the terracotta orange table softens and the shadows lengthen. The pampas grass remains still. The camera is static. The object never moves. Only the light changes, simulating a time-lapse from day to dusk. The atmosphere is bold, warm yet sophisticated.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-08', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">콘크리트 아치 속 테라코타. 낮에서 저녁으로의 자연광 전환이 공간의 숨결을 담는 건축적 라이프스타일 숏.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 09 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">09</div>
+      <img src="images/new_09_charcoal_rain.png" alt="Charcoal Rain">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 09</div>
+      <div class="card-title">CHARCOAL RAIN</div>
+      <div class="card-color">Charcoal Grey — Cinematic Rain</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-09">A dramatic 4K cinematic video. The side table must remain completely unchanged in shape, color, proportions, and surface — no morphing, no deformation. The heavy rain continues to fall, with water droplets splashing on the glistening surface of the charcoal grey table and the wet black stone ground. The cold blue-white spotlight subtly flickers as if from a distant storm. The camera performs an extremely slow dolly-in. The object is static. Only the rain and camera move. The atmosphere is raw, powerful, and cinematic.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-09', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">빗속의 가구. 극한의 환경에서도 흔들리지 않는 존재감. 물방울이 만드는 시각적 ASMR과 시네마틱 무드.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 10 -->
+  <div class="card">
+    <div class="card-image">
+      <div class="card-number">10</div>
+      <img src="images/new_10_duo_bw.png" alt="Duo B&W">
+    </div>
+    <div class="card-content">
+      <div class="card-tag">Concept 10</div>
+      <div class="card-title">DUO B&W</div>
+      <div class="card-color">Matte Black + Matte White — Graphic Duo</div>
+      <div class="prompt-label">Kling AI Prompt</div>
+      <div class="prompt-box" id="prompt-10">A graphic 4K conceptual video. The two side tables must remain completely unchanged in shape, color, proportions, and surface — no morphing, no deformation. The single overhead spotlight slowly rotates, causing the shared pool of light and the overlapping shadows of the black and white tables to move in a circular motion on the concrete floor. The tables themselves are perfectly static. The camera is static. Only the light and shadows move. The atmosphere is graphic, bold, and conceptual.</div>
+      <button class="copy-btn" onclick="copyPrompt('prompt-10', this)">COPY</button>
+      <div class="card-note">
+        <div class="note-label">연출 의도</div>
+        <div class="note-text">B&W 대비의 정수. 빛의 회전이 만드는 그림자의 춤. likewant의 Black & White 디자인 언어를 가장 직접적으로 표현.</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- TIP SECTION -->
+<section class="tip-section">
+  <div class="tip-box">
+    <div class="tip-title">KLING AI SETTINGS</div>
+    <div class="tip-grid">
+      <div class="tip-item">
+        <div class="tip-item-label">Mode</div>
+        <div class="tip-item-value">Image-to-Video<br>Professional Mode</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">Motion Intensity</div>
+        <div class="tip-item-value">3~4 (Low)<br>제품 외형 보존 최적</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">Duration</div>
+        <div class="tip-item-value">5~10초<br>숏츠 최적 길이</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">Aspect Ratio</div>
+        <div class="tip-item-value">9:16<br>숏츠/릴스 세로형</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">Workflow</div>
+        <div class="tip-item-value">이미지 업로드 →<br>프롬프트 복사 → 생성</div>
+      </div>
+      <div class="tip-item">
+        <div class="tip-item-label">Key Rule</div>
+        <div class="tip-item-value">모든 프롬프트에<br>외형 변형 방지 지시문 포함</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-brand">LIKEWANT</div>
+  <div class="footer-text">LIKE COLORS. WANT VIBES.</div>
+</footer>
+
+<script>
+function copyPrompt(id, btn) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'COPIED';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'COPY';
+      btn.classList.remove('copied');
+    }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>
